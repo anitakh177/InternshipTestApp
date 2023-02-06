@@ -39,14 +39,24 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(FirstTableViewCell.self)", for: indexPath) as? FirstTableViewCell else { return UITableViewCell() }
+        
+        switch indexPath.row {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(FirstTableViewCell.self)", for: indexPath) as? FirstTableViewCell else { return UITableViewCell() }
+            return cell
 
-
-        return cell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(SecondTableViewCell.self)", for: indexPath) as?
+                    SecondTableViewCell else { return UITableViewCell()}
+            return cell
+        default:
+            return UITableViewCell()
+        }
+        
                 
     }
     
@@ -67,6 +77,7 @@ private extension MainViewController {
         tableView.dataSource = self
         tableView.rowHeight = 140
         tableView.register(FirstTableViewCell.self, forCellReuseIdentifier: "\(FirstTableViewCell.self)")
+        tableView.register(SecondTableViewCell.self, forCellReuseIdentifier: "\(SecondTableViewCell.self)")
     }
     
     func configureAppearance() {

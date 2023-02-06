@@ -9,33 +9,47 @@ import UIKit
 
 final class ButtonCollectionViewCell: UICollectionViewCell {
     
-    private var button: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-       
-        button.titleLabel?.font = .systemFont(ofSize: 14)
-        return button
+    // MARK: - Views
+    
+   private var titleButton: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
+    
+
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .gray
         contentView.layer.cornerRadius = 12
-        contentView.addSubview(button)
+        contentView.addSubview(titleButton)
        
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Layout
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         setConstaints()
+        
     }
     
+    // MARK: - Internal Methods
+    
     func configureDataSource(title: String) {
-        button.setTitle(title, for: .normal)
+        titleButton.text = title
     }
+    
+    
 }
 
 // MARK: - Private Methods
@@ -45,11 +59,11 @@ private extension ButtonCollectionViewCell {
     func setConstaints() {
         
         NSLayoutConstraint.activate([
-            button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            titleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            titleButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            titleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            titleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
         ])
-        button.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        titleButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 }
