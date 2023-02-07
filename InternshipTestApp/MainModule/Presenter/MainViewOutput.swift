@@ -9,4 +9,5 @@ import Foundation
 
 protocol MainViewOutput: AnyObject {
     init(view: MainViewInput)
+    func showAlertController()
 }

@@ -34,7 +34,7 @@ final class DoubleCollectionView: UICollectionView, UICollectionViewDelegate, UI
                     if index > jobs.count - 1 {
                         index -= jobs.count
                     }
-            let item = jobs[index % jobs.count]
+            let item = jobs[indexPath.row % jobs.count]
             cell.configureDataSource(title: item)
             return cell
         }

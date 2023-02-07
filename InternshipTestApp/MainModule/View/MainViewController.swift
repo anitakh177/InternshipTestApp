@@ -11,6 +11,7 @@ final class MainViewController: UIViewController {
     // MARK: - View
     
     private let tableView = UITableView()
+    private let bottomView = BottomView()
     
     
     // MARK: - Properties
@@ -73,6 +74,8 @@ private extension MainViewController {
     }
     
     func configureTableView() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 140
@@ -81,20 +84,40 @@ private extension MainViewController {
     }
     
     func configureAppearance() {
+        view.backgroundColor = .white
+        configureBottomView()
         configureTableView()
         configureHeaderView()
         setTableViewConstaints()
+       
         
     }
     
     func setTableViewConstaints() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -32)
+        ])
+    }
+    
+    func configureBottomView() {
+        bottomView.didButtonTapped = { [weak self] in
+            self?.presenter.showAlertController()
+        }
+        
+        view.addSubview(bottomView)
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        setBottomViewConstraints()
+    }
+    
+    func setBottomViewConstraints(){
+        NSLayoutConstraint.activate([
+            bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -44),
+            bottomView.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
@@ -113,7 +136,7 @@ extension MainViewController: UIScrollViewDelegate {
     
 
 
-extension MainViewController: MainViewInput {
+extension MainViewController: MainViewInput, ModuleTransitionable {
     
    
 }

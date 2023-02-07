@@ -14,5 +14,10 @@ final class MainViewPresenter: MainViewOutput {
     }
     
     weak var view: MainViewInput?
+    var router: MainRouterInput?
+    
+    func showAlertController() {
+        router?.showMessageModule(with: "Поздравляем!", with: "Ваша заявка успешно отправлена!")
+    }
     
 }
