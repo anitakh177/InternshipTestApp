@@ -31,6 +31,7 @@ final class StretchyTableHeaderView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
          label.text = "Стажировка в Surf"
+        label.textColor = ColorConstants.darkGrayColor
          label.font = .systemFont(ofSize: 24, weight: .bold)
          label.translatesAutoresizingMaskIntoConstraints = false
          return label
@@ -60,8 +61,8 @@ final class StretchyTableHeaderView: UIView {
         let offsetY = -(scrollView.contentOffset.y + scrollView.contentInset.top)
         containerView.clipsToBounds = offsetY <= 0
         imageViewBottom.constant = offsetY >= 0 ? 0 : -offsetY / 2
-        imageViewHeight.constant = max(44, scrollView.contentInset.top)
-        //offsetY + scrollView.contentInset.top
+        imageViewHeight.constant = max(offsetY + scrollView.contentInset.top, scrollView.contentInset.top)
+        
     }
 }
 

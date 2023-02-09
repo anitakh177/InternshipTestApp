@@ -9,12 +9,22 @@ import UIKit
 
 final class ButtonCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    // MARK: - Properties
+    
+    private var jobs: [String] = ["IOS", "Android", "Design", "QA", "Flutter", "PM"]
+    private let numberOfItems = 1000
+    private var currentSelected = [Int]()
+   
+    
+    // MARK: - Init
+    
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: layout)
         delegate = self
         dataSource = self
+        allowsMultipleSelection = false
         layout.minimumLineSpacing = InsetConstants.minimLineSpacing
         showsHorizontalScrollIndicator = false
         translatesAutoresizingMaskIntoConstraints = false
@@ -23,15 +33,11 @@ final class ButtonCollectionView: UICollectionView, UICollectionViewDelegate, UI
         
     }
     
-    private var jobs: [String] = ["IOS", "Android", "Design", "QA", "Flutter", "PM"]
-    private let numberOfItems = 1000
+   // MARK: - Data Source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfItems
     }
-    
-    var previousSelected : IndexPath?
-    var currentSelected : Int?
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = dequeueReusableCell(withReuseIdentifier: "\(ButtonCollectionViewCell.self)", for: indexPath) as! ButtonCollectionViewCell
@@ -39,31 +45,41 @@ final class ButtonCollectionView: UICollectionView, UICollectionViewDelegate, UI
         let item = jobs[indexPath.row % jobs.count]
         cell.configureDataSource(title: item)
         
+        currentSelected.contains(indexPath.row) ? cell.selectedState() : cell.deselectedState()
         
         return cell
     }
+        
+    // MARK: - Delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("selected")
-        if let cell = self.cellForItem(at: indexPath) as? ButtonCollectionViewCell {
+        let itemToMove = jobs[indexPath.row % jobs.count]
+        jobs.remove(at: indexPath.row % jobs.count)
+        jobs.insert(itemToMove, at: 0)
+        let destinationindexPath = NSIndexPath(row: 0, section: indexPath.section)
+        currentSelected.append(destinationindexPath.row)
             
-            if cell.contentView.backgroundColor == UIColor.gray {
-                cell.contentView.backgroundColor = UIColor.black
-            }
-            else if cell.contentView.backgroundColor == UIColor.black {
-                cell.contentView.backgroundColor = UIColor.gray
-            }
+        reloadData()
+        self.moveItem(at: indexPath, to: destinationindexPath as IndexPath)
             
-            let itemToMove = jobs[indexPath.row % jobs.count]
-             jobs.remove(at: indexPath.row % jobs.count )
-             jobs.insert(itemToMove, at: 0) //move to front of array
-             let destinationindexPath = NSIndexPath(row: 0, section: indexPath.section)
-            self.moveItem(at: indexPath, to: destinationindexPath as IndexPath)
-             
-        }
-        
-        
     }
+        
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if  let cell = collectionView.cellForItem(at: indexPath) as? ButtonCollectionViewCell {
+            if currentSelected.contains(indexPath.row % jobs.count) {
+                cell.deselectedState()
+                deselectItem(at: indexPath, animated: true)
+                currentSelected.remove(at: currentSelected[indexPath.row % jobs.count])
+            } else {
+                selectItem(at: indexPath, animated: true, scrollPosition: [])
+                return true
+            }
+        }
+
+        return false
+    }
+    
+    // MARK: - Delegate Flow Layout
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             let item = jobs[indexPath.row % jobs.count]

@@ -20,7 +20,7 @@ final class FirstTableViewCell: UITableViewCell {
                     """
         label.numberOfLines = 3
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .systemGray
+        label.textColor = ColorConstants.textColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

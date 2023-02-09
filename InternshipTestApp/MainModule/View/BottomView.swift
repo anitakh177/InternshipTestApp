@@ -18,7 +18,7 @@ final class BottomView: UIView {
         let label = UILabel()
         label.text = "Хочешь к нам?"
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .systemGray
+        label.textColor = ColorConstants.textColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -26,7 +26,7 @@ final class BottomView: UIView {
     private var button: UIButton = {
        let button = UIButton()
         button.setTitle("Отправить заявку", for: .normal)
-        button.backgroundColor = .gray
+        button.backgroundColor = ColorConstants.darkGrayColor
         button.layer.cornerRadius = 28
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

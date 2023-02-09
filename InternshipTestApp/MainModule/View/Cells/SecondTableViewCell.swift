@@ -19,7 +19,7 @@ final class SecondTableViewCell: UITableViewCell {
                     """
         label.numberOfLines = 3
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .systemGray
+        label.textColor = ColorConstants.textColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -61,8 +61,8 @@ private extension SecondTableViewCell {
             collectionView.topAnchor.constraint(equalTo: commentLabel.bottomAnchor, constant: 12),
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            collectionView.heightAnchor.constraint(equalToConstant: 44)
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -279),
+            collectionView.heightAnchor.constraint(equalToConstant: 100)
             
         ])
         
