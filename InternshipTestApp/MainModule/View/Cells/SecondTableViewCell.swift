@@ -13,10 +13,6 @@ final class SecondTableViewCell: UITableViewCell {
     
     private var commentLabel: UILabel = {
         let label = UILabel()
-        label.text = """
-                    Получай стипендию, выстраивай удобный график,
-                    работай на современном железе.
-                    """
         label.numberOfLines = 3
         label.font = .systemFont(ofSize: 14)
         label.textColor = ColorConstants.textColor
@@ -27,6 +23,7 @@ final class SecondTableViewCell: UITableViewCell {
     private let collectionView = DoubleCollectionView()
     
     // MARK: - Init
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(commentLabel)
@@ -42,6 +39,13 @@ final class SecondTableViewCell: UITableViewCell {
         setConstraints()
     }
     
+    // MARK: - Internal Methods
+    
+    func configureDataSource(jobs: Jobs) {
+        commentLabel.text = jobs.secondDescription
+        collectionView.jobs = jobs.names
+        collectionView.jobs += jobs.additionalNames
+    }
     
 }
     
@@ -53,13 +57,13 @@ private extension SecondTableViewCell {
         
         NSLayoutConstraint.activate([
             
-            commentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            commentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            commentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 20),
+            commentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: InsetConstants.verticalInset),
+            commentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: InsetConstants.horizontalInset),
+            commentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -InsetConstants.horizontalInset),
           
             
-            collectionView.topAnchor.constraint(equalTo: commentLabel.bottomAnchor, constant: 12),
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            collectionView.topAnchor.constraint(equalTo: commentLabel.bottomAnchor, constant: InsetConstants.verticalInset),
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: InsetConstants.horizontalInset),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -279),
             collectionView.heightAnchor.constraint(equalToConstant: 100)

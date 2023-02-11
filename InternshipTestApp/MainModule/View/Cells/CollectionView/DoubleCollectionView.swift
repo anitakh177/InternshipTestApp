@@ -7,13 +7,11 @@
 
 import UIKit
 
-final class DoubleCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource,
-                                  UICollectionViewDelegateFlowLayout {
+final class DoubleCollectionView: UICollectionView {
     
     // MARK: - Properties
     
-    private var jobs: [String] = ["IOS", "Android", "Design", "QA", "Flutter", "PM", "dgjirjg", "BGURBG", "FHDUFGSD", "SIFHSAIBN", "ASFHUSFH", "ASFDHISF"]
-    
+    var jobs: [String] = []
     private var currentSelected = [Int]()
     
     // MARK: - Init
@@ -24,15 +22,22 @@ final class DoubleCollectionView: UICollectionView, UICollectionViewDelegate, UI
         super.init(frame: .zero, collectionViewLayout: layout)
         delegate = self
         dataSource = self
-        layout.minimumInteritemSpacing = 12
-        layout.minimumLineSpacing = 12
-        showsHorizontalScrollIndicator = true
+        layout.minimumInteritemSpacing = InsetConstants.minimLineSpacing
+        layout.minimumLineSpacing = InsetConstants.minimLineSpacing
+        showsHorizontalScrollIndicator = false
         translatesAutoresizingMaskIntoConstraints = false
         register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: "\(ButtonCollectionViewCell.self)")
         
     }
     
-   // MARK: - Data Source
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Data Source
+
+extension DoubleCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return jobs.count
@@ -45,24 +50,29 @@ final class DoubleCollectionView: UICollectionView, UICollectionViewDelegate, UI
         cell.configureDataSource(title: item)
         
         currentSelected.contains(indexPath.row) ? cell.selectedState() : cell.deselectedState()
-       
+        
         return cell
     }
     
-    // MARK: - Delegate
+   
+}
+
+// MARK: - Delegate
+
+extension DoubleCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let itemToMove = jobs[indexPath.row]
-        jobs.remove(at: indexPath.row )
-        jobs.insert(itemToMove, at: 0)
-        let destinationindexPath = NSIndexPath(row: 0, section: indexPath.section)
-        currentSelected.append(destinationindexPath.row)
-            
-        reloadData()
-        self.moveItem(at: indexPath, to: destinationindexPath as IndexPath)
-            
-    }
+            let itemToMove = jobs[indexPath.row]
+            jobs.remove(at: indexPath.row )
+            jobs.insert(itemToMove, at: 0)
+            let destinationindexPath = NSIndexPath(row: 0, section: indexPath.section)
+            currentSelected.append(destinationindexPath.row)
+            reloadData()
+            moveItem(at: indexPath, to: destinationindexPath as IndexPath)
+            scroll(toElementAtIndex: destinationindexPath.row)
         
+    }
+    
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         if  let cell = collectionView.cellForItem(at: indexPath) as? ButtonCollectionViewCell {
             if currentSelected.contains(indexPath.row) {
@@ -74,24 +84,24 @@ final class DoubleCollectionView: UICollectionView, UICollectionViewDelegate, UI
                 return true
             }
         }
-
+        
         return false
     }
+}
     
-    // MARK: - Delegate Flow Layout
+// MARK: - Delegate Flow Layout
 
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let item = jobs[indexPath.row]
-            let itemSize = item.size(withAttributes: [
-                NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)
-            ])
-            
-            return CGSize(width: itemSize.width+48, height: 44)
-        }
+extension DoubleCollectionView: UICollectionViewDelegateFlowLayout  {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let item = jobs[indexPath.row]
+        let itemSize = item.size(withAttributes: [
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)
+        ])
         
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+        return CGSize(width: itemSize.width+48, height: InsetConstants.cellHeight)
     }
+    
+}
 
 

@@ -11,4 +11,7 @@ struct InsetConstants {
     static let horizontalInset: CGFloat = 20
     static let verticalInset: CGFloat = 12
     static let minimLineSpacing: CGFloat = 12
+    
+    static let cellHeight: CGFloat = 44
+    static let cellHorizontalInset: CGFloat = 24
 }

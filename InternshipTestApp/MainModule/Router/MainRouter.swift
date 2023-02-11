@@ -19,6 +19,7 @@ final class MainRouter: MainRouterInput {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
         alertController.addAction(cancelAction)
+        alertController.view.tintColor = ColorConstants.darkGrayColor
         DispatchQueue.main.async {
             self.view?.presentModule(alertController, animated: true, completion: nil)
         }

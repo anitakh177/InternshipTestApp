@@ -68,10 +68,10 @@ private extension ButtonCollectionViewCell {
     func setConstaints() {
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: InsetConstants.verticalInset),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: InsetConstants.cellHorizontalInset),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -InsetConstants.cellHorizontalInset),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -InsetConstants.verticalInset),
         ])
         titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }

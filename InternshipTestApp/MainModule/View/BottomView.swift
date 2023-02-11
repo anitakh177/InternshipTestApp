@@ -10,6 +10,7 @@ import UIKit
 final class BottomView: UIView {
     
     // MARK: - Events
+    
     var didButtonTapped: (() -> Void)?
     
     // MARK: - Views
@@ -23,7 +24,7 @@ final class BottomView: UIView {
         return label
     }()
     
-    private var button: UIButton = {
+    private lazy var button: UIButton = {
        let button = UIButton()
         button.setTitle("Отправить заявку", for: .normal)
         button.backgroundColor = ColorConstants.darkGrayColor

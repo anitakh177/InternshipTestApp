@@ -90,8 +90,8 @@ private extension StretchyTableHeaderView {
             roundedView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             roundedView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
-            titleLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: InsetConstants.horizontalInset),
+            titleLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: InsetConstants.horizontalInset),
             titleLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 24),
             
             

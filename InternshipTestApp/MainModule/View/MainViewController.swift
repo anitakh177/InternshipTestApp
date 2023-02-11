@@ -8,16 +8,15 @@
 import UIKit
 
 final class MainViewController: UIViewController {
+    
     // MARK: - View
     
     private let tableView = UITableView()
     private let bottomView = BottomView()
     
-    
     // MARK: - Properties
     
     var presenter: MainViewOutput!
-    
     
     // MARK: - Lifecycle
     
@@ -32,7 +31,6 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
-  
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         2
     }
@@ -43,13 +41,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(FirstTableViewCell.self)", for: indexPath) as? FirstTableViewCell else { return UITableViewCell() }
             cell.selectionStyle = .none
+            cell.configureDataSource(jobs: presenter.dataSource)
             return cell
 
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(SecondTableViewCell.self)", for: indexPath) as?
                     SecondTableViewCell else { return UITableViewCell()}
             cell.selectionStyle = .none
+            cell.configureDataSource(jobs: presenter.dataSource)
             return cell
+           
         default:
             return UITableViewCell()
         }
@@ -57,9 +58,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 128
+            return 130
         } else {
             return 442
             
@@ -86,6 +87,8 @@ private extension MainViewController {
         tableView.dataSource = self
         tableView.register(FirstTableViewCell.self, forCellReuseIdentifier: "\(FirstTableViewCell.self)")
         tableView.register(SecondTableViewCell.self, forCellReuseIdentifier: "\(SecondTableViewCell.self)")
+        setTableViewConstaints()
+       
     }
     
     func configureAppearance() {
@@ -93,12 +96,10 @@ private extension MainViewController {
         configureBottomView()
         configureTableView()
         configureHeaderView()
-        setTableViewConstaints()
-       
-        
     }
     
     func setTableViewConstaints() {
+        
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -119,8 +120,8 @@ private extension MainViewController {
     
     func setBottomViewConstraints(){
         NSLayoutConstraint.activate([
-            bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: InsetConstants.horizontalInset),
+            bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -InsetConstants.verticalInset),
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -44),
             bottomView.heightAnchor.constraint(equalToConstant: 60)
         ])
